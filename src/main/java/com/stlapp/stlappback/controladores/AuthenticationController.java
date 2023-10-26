@@ -1,6 +1,7 @@
 package com.stlapp.stlappback.controladores;
 
 import com.stlapp.stlappback.configuraciones.JwtUtil;
+import com.stlapp.stlappback.excepciones.UsuarioNotFoundException;
 import com.stlapp.stlappback.modelos.JwtRequest;
 import com.stlapp.stlappback.modelos.JwtResponse;
 import com.stlapp.stlappback.modelos.Usuario;
@@ -33,7 +34,7 @@ public class AuthenticationController {
         try{
             autenticar(jwtRequest.getUsername(), jwtRequest.getPassword());
 
-        }catch (Exception exception) {
+        }catch (UsuarioNotFoundException exception) {
             exception.printStackTrace();
             throw new Exception("Usuario no encontrado");
         }

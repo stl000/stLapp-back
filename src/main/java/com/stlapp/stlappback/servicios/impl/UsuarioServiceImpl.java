@@ -1,5 +1,6 @@
 package com.stlapp.stlappback.servicios.impl;
 
+import com.stlapp.stlappback.excepciones.UsuarioFoundException;
 import com.stlapp.stlappback.modelos.Usuario;
 import com.stlapp.stlappback.modelos.UsuarioRol;
 import com.stlapp.stlappback.repositorios.RolRepository;
@@ -24,7 +25,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         Usuario usuarioLocal = usuarioRepository.findByUsername(usuario.getUsername());
         if(usuarioLocal != null){
             System.out.println("El usuario ya está registrado");
-            throw new Exception("El usuario ya existe en la bbdd");
+            throw new UsuarioFoundException("El usuario ya existe en la bbdd");
         }else{
             for(UsuarioRol usuarioRol: usuarioRoles){
                 rolRepository.save(usuarioRol.getRol());
