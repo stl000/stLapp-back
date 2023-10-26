@@ -33,6 +33,9 @@ public class Usuario implements UserDetails {
     private String password;
     @Getter @Setter
     private String perfil;
+    @Getter @Setter
+    private boolean enabled = true;
+
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "usuario")
     @Getter @Setter
@@ -40,6 +43,18 @@ public class Usuario implements UserDetails {
     private Set <UsuarioRol> usuarioRoles =new HashSet<>();
 
     public Usuario(){}
+
+    public Usuario(Long id, String username, String password, String nombre, String apellidos, String email, String telefono, boolean enabled, String perfil) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.email = email;
+        this.telefono = telefono;
+        this.enabled = enabled;
+        this.perfil = perfil;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -69,6 +84,6 @@ public class Usuario implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }

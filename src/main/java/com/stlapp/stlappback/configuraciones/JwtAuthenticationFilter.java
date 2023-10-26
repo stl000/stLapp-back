@@ -44,26 +44,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
         }else{
             System.out.println("Token invalido. No empieza con bearer string");
-            System.out.println("Request Header(Authorization) -> "+request.getHeader("Authorization"));
-            System.out.println("Request URI -> "+request.getRequestURI());
-            System.out.println("Request PathInfo -> "+request.getPathInfo());
-            System.out.println("Request Header Names-> "+request.getHeaderNames());
-            System.out.println("Request -> "+request);
-
         }
 
 
         if(username != null && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+
             if(this.jwtUtil.validateToken(jwtToken, userDetails)){
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-            }else{
-                System.out.println("El token no es valido");
             }
-            filterChain.doFilter(request,response);
+        }else{
+            System.out.println("El token no es valido");
         }
+        filterChain.doFilter(request,response);
     }
 }
