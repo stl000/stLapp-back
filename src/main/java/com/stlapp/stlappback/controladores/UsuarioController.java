@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -51,6 +52,11 @@ public class UsuarioController {
     @DeleteMapping("/{usuarioId}")
     public void eliminarUsuario(@PathVariable("usuarioId") Long usuarioId){
         usuarioService.eliminarUsuario(usuarioId);
+    }
+
+    @GetMapping("/lista-usuarios")
+    public List<Usuario> obtenerUsuarios(){
+        return usuarioService.obtenerUsuarios();
     }
 
 }

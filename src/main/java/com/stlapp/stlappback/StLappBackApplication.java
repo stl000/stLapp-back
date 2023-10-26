@@ -50,6 +50,5 @@ public class StLappBackApplication implements CommandLineRunner {
 		}catch(UsuarioFoundException exception){
 			exception.printStackTrace();
 		}*/
-
 	}
 }
