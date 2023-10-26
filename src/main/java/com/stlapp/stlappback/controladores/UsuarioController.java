@@ -5,9 +5,11 @@ import com.stlapp.stlappback.modelos.Usuario;
 import com.stlapp.stlappback.modelos.UsuarioRol;
 import com.stlapp.stlappback.servicios.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -18,10 +20,15 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @PostMapping("/")
     public Usuario guardarUsuario(@RequestBody Usuario usuario) throws Exception{
 
         usuario.setPerfil("default.png");
+
+        usuario.setPassword(this.bCryptPasswordEncoder.encode(usuario.getPassword()));
 
         Rol rol = new Rol();
         rol.setId(2L);
@@ -45,6 +52,11 @@ public class UsuarioController {
     @DeleteMapping("/{usuarioId}")
     public void eliminarUsuario(@PathVariable("usuarioId") Long usuarioId){
         usuarioService.eliminarUsuario(usuarioId);
+    }
+
+    @GetMapping("/lista-usuarios")
+    public List<Usuario> obtenerUsuarios(){
+        return usuarioService.obtenerUsuarios();
     }
 
 }

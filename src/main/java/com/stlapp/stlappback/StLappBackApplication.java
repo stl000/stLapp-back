@@ -5,12 +5,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
 public class StLappBackApplication implements CommandLineRunner {
 
 	@Autowired
 	private UsuarioService usuarioService;
+
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	public static void main(String[] args) {
 		SpringApplication.run(StLappBackApplication.class, args);
@@ -25,7 +29,7 @@ public class StLappBackApplication implements CommandLineRunner {
 		usuario.setTelefono("987654321");
 		usuario.setEmail("stl.benavides@gmail.com");
 		usuario.setUsername("stL");
-		usuario.setPassword("321321");
+		usuario.setPassword(bCryptPasswordEncoder.encode("321321"));
 		usuario.setPerfil("foto.png");
 
 		Rol rol = new Rol();
@@ -42,7 +46,5 @@ public class StLappBackApplication implements CommandLineRunner {
 		Usuario usuarioCreado = usuarioService.guardarUsuario(usuario, usuarioRoles);
 
 		System.out.println(usuarioCreado.getUsername());*/
-		System.out.println("Hola");
-
 	}
 }
