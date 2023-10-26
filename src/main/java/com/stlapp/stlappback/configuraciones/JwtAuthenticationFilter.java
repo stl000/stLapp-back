@@ -29,11 +29,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         String requestTokenHeader = request.getHeader("Authorization");
+
         String username = null;
         String jwtToken = null;
 
-        if(requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")){
-            jwtToken = requestTokenHeader.substring(7);
+        if(requestTokenHeader != null && requestTokenHeader.startsWith("Bearer")){
+            jwtToken = requestTokenHeader.substring(6);
 
             try {
                 username = this.jwtUtil.extractUsername(jwtToken);
@@ -45,6 +46,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }else{
             System.out.println("Token invalido. No empieza con bearer string");
         }
+        System.out.println(jwtToken);
 
 
         if(username != null && SecurityContextHolder.getContext().getAuthentication() == null){
