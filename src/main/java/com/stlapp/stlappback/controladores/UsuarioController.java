@@ -5,11 +5,13 @@ import com.stlapp.stlappback.modelos.Usuario;
 import com.stlapp.stlappback.modelos.UsuarioRol;
 import com.stlapp.stlappback.servicios.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -22,6 +24,16 @@ public class UsuarioController {
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @GetMapping("/")
+    public List<Usuario> obtenerUsuarios(){
+        return usuarioService.obtenerUsuarios();
+    }
+
+    @GetMapping("/{usuarioId}")
+    public ResponseEntity<Usuario> obtenerUsuario(@PathVariable("usuarioId") Long usuarioId) throws Exception {
+        return usuarioService.obtenerUsuario(usuarioId);
+    }
 
     @PostMapping("/")
     public Usuario guardarUsuario(@RequestBody Usuario usuario) throws Exception{
@@ -44,19 +56,19 @@ public class UsuarioController {
         return usuarioService.guardarUsuario(usuario, usuarioRoles);
     }
 
-    @GetMapping("/{username}")
-    public Usuario obtenerUsuario(@PathVariable("username") String username){
-        return usuarioService.obtenerUsuario(username);
+
+    @PutMapping("/{usuarioId}")
+    public ResponseEntity<Usuario> actualizarUsuario(@PathVariable("usuarioId") Long usuarioId, @RequestBody Usuario usuario) throws Exception{
+        System.out.println("usuarioID: "+usuarioId);
+        return usuarioService.actualizarUsuario(usuarioId, usuario, usuario.getUsuarioRoles());
     }
 
     @DeleteMapping("/{usuarioId}")
-    public void eliminarUsuario(@PathVariable("usuarioId") Long usuarioId){
+    public void eliminarUsuario(@PathVariable("usuarioId") Long usuarioId) throws Exception {
         usuarioService.eliminarUsuario(usuarioId);
     }
 
-    @GetMapping("/lista-usuarios")
-    public List<Usuario> obtenerUsuarios(){
-        return usuarioService.obtenerUsuarios();
-    }
+
+
 
 }
