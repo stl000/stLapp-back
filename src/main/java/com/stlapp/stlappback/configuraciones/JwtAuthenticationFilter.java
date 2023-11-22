@@ -73,7 +73,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 System.out.println("getAuthentication: "+SecurityContextHolder.getContext().getAuthentication());
             }
         }else{
-            System.out.println("Generandop token o guardando usuario: "+request.getRequestURI());
+            System.out.println("Generando token o guardando usuario: "+request.getRequestURI());
         }
 
         filterChain.doFilter(request,response);

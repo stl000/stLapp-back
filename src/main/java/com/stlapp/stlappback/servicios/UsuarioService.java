@@ -17,8 +17,8 @@ public interface UsuarioService {
 
     public void eliminarUsuario(Long usuarioId) throws Exception;
 
-    List<Usuario> obtenerUsuarios();
+    public List<Usuario> obtenerUsuarios();
 
-    public ResponseEntity<Usuario> actualizarUsuario(Long usuarioId, Usuario usuario, Set<UsuarioRol> usuarioRoles) throws Exception;
+    public Usuario actualizarUsuario(Long usuarioId, Usuario usuario) throws Exception;
 
 }

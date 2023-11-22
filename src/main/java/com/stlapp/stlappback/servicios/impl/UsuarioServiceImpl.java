@@ -35,7 +35,9 @@ public class UsuarioServiceImpl implements UsuarioService {
             System.out.println("El usuario ya está registrado");
             throw new UsuarioFoundException("El usuario ya existe en la bbdd");
         }else{
+            System.out.println("usuarioRoles: "+usuarioRoles);
             for(UsuarioRol usuarioRol: usuarioRoles){
+                System.out.println("usuarioRolGuardado: "+usuarioRol.getRol());
                 rolRepository.save(usuarioRol.getRol());
             }
             usuario.getUsuarioRoles().addAll(usuarioRoles);
@@ -71,8 +73,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public ResponseEntity<Usuario> actualizarUsuario(Long usuarioId, Usuario usuario, Set<UsuarioRol> usuarioRoles) throws Exception{
-
+    public Usuario actualizarUsuario(Long usuarioId, Usuario usuario) throws Exception{
         Usuario usuarioLocal = usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new UsuarioNotFoundException("El usuario no existe en la bbdd"));
 
@@ -98,19 +99,15 @@ public class UsuarioServiceImpl implements UsuarioService {
             usuarioLocal.setPassword(this.bCryptPasswordEncoder.encode(usuario.getPassword()));
         }
 
-        if(usuarioRoles!=null){
-            for(UsuarioRol usuarioRol: usuarioRoles){
+        if(usuario.getUsuarioRoles()!=null){
+            for(UsuarioRol usuarioRol: usuario.getUsuarioRoles()){
                 rolRepository.save(usuarioRol.getRol());
             }
-            usuario.getUsuarioRoles().addAll(usuarioRoles);
-        }
-        if(usuario.getUsuarioRoles()!=null){
-            usuarioLocal.setUsuarioRoles(usuario.getUsuarioRoles());
         }
 
         Usuario usuarioActualizado = usuarioRepository.save(usuarioLocal);
 
-        return ResponseEntity.ok(usuarioActualizado);
+        return usuarioActualizado;
 
     }
 

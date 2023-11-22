@@ -58,9 +58,8 @@ public class UsuarioController {
 
 
     @PutMapping("/{usuarioId}")
-    public ResponseEntity<Usuario> actualizarUsuario(@PathVariable("usuarioId") Long usuarioId, @RequestBody Usuario usuario) throws Exception{
-        System.out.println("usuarioID: "+usuarioId);
-        return usuarioService.actualizarUsuario(usuarioId, usuario, usuario.getUsuarioRoles());
+    public Usuario actualizarUsuario(@PathVariable("usuarioId") Long usuarioId, @RequestBody Usuario usuario) throws Exception{
+        return usuarioService.actualizarUsuario(usuarioId, usuario);
     }
 
     @DeleteMapping("/{usuarioId}")
